@@ -12,7 +12,7 @@ require(dplyr)
 require(lattice)
 ```
 
-## PART ONE - Loading and preprocessing the data  
+## PART ONE - Loading and preprocessing the data
 
 **1. Load the data (i.e. read.csv())**
 ```{r}
@@ -39,7 +39,7 @@ print(activity)
 ```{r}
 # Calculates the number of steps taken per day
 daily.steps <- group_by(activity, date) %>%
-  summarize(total.steps = sum(steps,na.rm = TRUE))
+  summarise(total.steps = sum(steps,na.rm = TRUE))
 
 # Plots the histogram
 histogram(~ total.steps, data = daily.steps, 
@@ -135,30 +135,30 @@ The new dataset has higher values of mean and median. So, the impact of putting 
 
 **1. Create a new factor variable in the dataset with two levels – "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.**
 ```{r}
-# Creates a day.type variable
-activity <- mutate(activity, day.type = weekdays(date))
+# Creates a weekday variable
+activity <- mutate(activity, weekday = weekdays(date))
 
-# Sets the day.type values with "weekday" and "weekend" 
+# Sets the variables with values "weekday" and "weekend" 
 for(i in 1:dim(activity)[1]) {
-  if(activity$day.type[i] == "Saturday" | activity$day.type[i] == "Sunday") {
-    activity$day.type[i] <- "weekend" 
+  if(activity$weekday[i] == "Saturday" | activity$weekday[i] == "Sunday") {
+    activity$weekday[i] <- "weekend" 
   } else {
-    activity$day.type[i] <- "weekday"
+    activity$weekday[i] <- "weekday"
   }
 }
 
-# Transforms the day.type variable in a factor
-activity <- mutate(activity, day.type = as.factor(day.type))
+# Transforms the weekday variable in a factor
+activity <- mutate(activity, weekday = as.factor(weekday))
 ```
 
 **2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).**
 ```{r}
 # Calculates the average number of steps by type of date and interval
-steps.interval <- group_by(activity, interval, day.type) %>%
+steps.interval <- group_by(activity, interval, weekday) %>%
   summarize(avg.steps = mean(steps, na.rm = TRUE))
 
-# Plots the graphics, showing the median as line
-xyplot(avg.steps ~ interval | day.type, data = steps.interval, type = "l", 
+# Plots the graphics
+xyplot(avg.steps ~ interval | weekday, data = steps.interval, type = "l", 
        layout = c(1, 2), ylab = "Average number of steps", 
        panel = function(x, y, ...) {
          panel.xyplot(x, y, ...)

@@ -104,7 +104,7 @@ print(activity)</code></pre>
 <p><strong>1. Make a histogram of the total number of steps taken each day</strong></p>
 <pre class="r"><code># Calculates the number of steps taken per day
 daily.steps &lt;- group_by(activity, date) %&gt;%
-  summarize(total.steps = sum(steps,na.rm = TRUE))
+  summarise(total.steps = sum(steps,na.rm = TRUE))
 
 # Plots the histogram
 histogram(~ total.steps, data = daily.steps, 
@@ -195,27 +195,27 @@ diff.median &lt;- median.daily.steps.new - median.daily.steps</code></pre>
 <div id="part-five---are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>PART FIVE - Are there differences in activity patterns between weekdays and weekends?</h2>
 <p><strong>1. Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.</strong></p>
-<pre class="r"><code># Creates a day.type variable
-activity &lt;- mutate(activity, day.type = weekdays(date))
+<pre class="r"><code># Creates a weekday variable
+activity &lt;- mutate(activity, weekday = weekdays(date))
 
-# Sets the day.type values with &quot;weekday&quot; and &quot;weekend&quot; 
+# Sets the variables with values &quot;weekday&quot; and &quot;weekend&quot; 
 for(i in 1:dim(activity)[1]) {
-  if(activity$day.type[i] == &quot;Saturday&quot; | activity$day.type[i] == &quot;Sunday&quot;) {
-    activity$day.type[i] &lt;- &quot;weekend&quot; 
+  if(activity$weekday[i] == &quot;Saturday&quot; | activity$weekday[i] == &quot;Sunday&quot;) {
+    activity$weekday[i] &lt;- &quot;weekend&quot; 
   } else {
-    activity$day.type[i] &lt;- &quot;weekday&quot;
+    activity$weekday[i] &lt;- &quot;weekday&quot;
   }
 }
 
-# Transforms the day.type variable in a factor
-activity &lt;- mutate(activity, day.type = as.factor(day.type))</code></pre>
+# Transforms the weekday variable in a factor
+activity &lt;- mutate(activity, weekday = as.factor(weekday))</code></pre>
 <p><strong>2. Make a panel plot containing a time series plot (i.e. type = “l”) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).</strong></p>
 <pre class="r"><code># Calculates the average number of steps by type of date and interval
-steps.interval &lt;- group_by(activity, interval, day.type) %&gt;%
+steps.interval &lt;- group_by(activity, interval, weekday) %&gt;%
   summarize(avg.steps = mean(steps, na.rm = TRUE))
 
-# Plots the graphics, showing the median as line
-xyplot(avg.steps ~ interval | day.type, data = steps.interval, type = &quot;l&quot;, 
+# Plots the graphics
+xyplot(avg.steps ~ interval | weekday, data = steps.interval, type = &quot;l&quot;, 
        layout = c(1, 2), ylab = &quot;Average number of steps&quot;, 
        panel = function(x, y, ...) {
          panel.xyplot(x, y, ...)
