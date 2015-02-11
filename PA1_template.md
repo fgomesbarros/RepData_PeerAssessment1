@@ -1,4 +1,7 @@
 # Reproducible Research: Peer Assessment 1
+## PART ONE - Loading and preprocessing the data
+
+**1. Load the data (i.e. read.csv())**
 
 ```r
 # Loads the required libraries 
@@ -26,10 +29,6 @@ require(lattice)
 ```
 ## Loading required package: lattice
 ```
-
-## PART ONE - Loading and preprocessing the data
-
-**1. Load the data (i.e. read.csv())**
 
 ```r
 # Unzips the data files
@@ -81,7 +80,7 @@ histogram(~ total.steps, data = daily.steps,
           xlab = "Total number of steps taken per day ")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
 
 **2. Calculate and report the mean and median of the total number of steps taken per day**
 
@@ -107,7 +106,7 @@ xyplot(avg.steps ~ interval, data = steps.interval, type = "l", col = "blue",
        main = "Time Series", xlab = "Interval", ylab = "Average number of steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
 
 **2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?**
 
@@ -178,7 +177,7 @@ histogram(~ total.steps, data = daily.steps.new,
           xlab = "Total number of steps taken per day")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-10-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 
 
 ```r
 # Calculates the mean, median
@@ -234,4 +233,4 @@ xyplot(avg.steps ~ interval | weekday, data = steps.interval, type = "l",
   })
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 

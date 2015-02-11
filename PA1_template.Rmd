@@ -6,16 +6,14 @@ output:
   pdf_document: default
   word_document: default
 ---
-```{r}
-# Loads the required libraries 
-require(dplyr)
-require(lattice)
-```
-
 ## PART ONE - Loading and preprocessing the data
 
 **1. Load the data (i.e. read.csv())**
 ```{r}
+# Loads the required libraries 
+require(dplyr)
+require(lattice)
+
 # Unzips the data files
 unzip("activity.zip")
 
