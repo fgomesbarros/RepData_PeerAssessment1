@@ -137,16 +137,18 @@ The new dataset has higher values of mean and median. So, the impact of putting 
 **1. Create a new factor variable in the dataset with two levels – "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.**
 ```{r}
 # Creates a weekday variable
-activity <- mutate(activity, weekday = weekdays(date))
+weekday <- weekdays(activity$date)
 
-# Sets the variables with values "weekday" and "weekend" 
-for(i in 1:dim(activity)[1]) {
-  if(activity$weekday[i] == "Saturday" | activity$weekday[i] == "Sunday") {
-    activity$weekday[i] <- "weekend" 
+# Sets the variable with values "weekday" and "weekend" 
+for(i in 1:length(weekday)) {
+  if(weekday[i] == "Saturday" | weekday[i] == "Sunday") {
+    weekday[i] <- "weekend" 
   } else {
-    activity$weekday[i] <- "weekday"
+    weekday[i] <- "weekday"
   }
 }
+# Combines columns 
+activity <- cbind(activity, weekday)
 
 # Transforms the weekday variable in a factor
 activity <- mutate(activity, weekday = as.factor(weekday))
