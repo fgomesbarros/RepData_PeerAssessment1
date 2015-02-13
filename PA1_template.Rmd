@@ -11,8 +11,8 @@ output:
 **1. Load the data (i.e. read.csv())**
 ```{r}
 # Loads the required libraries 
-require(dplyr)
-require(lattice)
+library(dplyr)
+library(ggplot2)
 
 # Unzips the data files
 unzip("activity.zip")
@@ -40,8 +40,9 @@ daily.steps <- group_by(activity, date) %>%
   summarise(total.steps = sum(steps,na.rm = TRUE))
 
 # Plots the histogram
-histogram(~ total.steps, data = daily.steps, 
-          xlab = "Total number of steps taken per day ")
+qplot(total.steps, data = daily.steps, geom = "histogram",   
+      xlab = "Total number of steps", xlim = c(0, 25000), binwidth = 500, 
+      main = "Histogram of the total number of steps taken each day")
 ```
 
 **2. Calculate and report the mean and median of the total number of steps taken per day**
@@ -62,8 +63,9 @@ steps.interval <- group_by(activity, interval) %>%
   summarize(avg.steps = mean(steps, na.rm = TRUE))
 
 # Plots the graphic
-xyplot(avg.steps ~ interval, data = steps.interval, type = "l", col = "blue", 
-       main = "Time Series", xlab = "Interval", ylab = "Average number of steps")
+qplot(interval, avg.steps, data = steps.interval, geom = "line", 
+      xlim = c(0, 2500), main = "Time Series", xlab = "Interval", 
+      ylab = "Average number of steps")
 ```
 
 **2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?**
@@ -110,8 +112,9 @@ daily.steps.new  <- group_by(activity.new, date) %>%
   summarise(total.steps = sum(steps, na.rm = TRUE))
 
 # Plots the new histogram
-histogram(~ total.steps, data = daily.steps.new,  
-          xlab = "Total number of steps taken per day")
+qplot(total.steps, data = daily.steps.new, geom = "histogram",   
+      xlab = "Total number of steps", xlim = c(0, 25000), binwidth = 500,
+      main = "Histogram of the total number of steps taken each day")
 
 # Calculates the mean, median
 mean.daily.steps.new <- mean(daily.steps.new$total.steps, na.rm = TRUE)
@@ -156,10 +159,7 @@ steps.interval <- group_by(activity, interval, weekday) %>%
   summarize(avg.steps = mean(steps, na.rm = TRUE))
 
 # Plots the graphics
-xyplot(avg.steps ~ interval | weekday, data = steps.interval, type = "l", 
-       layout = c(1, 2), ylab = "Average number of steps", 
-       panel = function(x, y, ...) {
-         panel.xyplot(x, y, ...)
-         panel.abline(h = median(y), lty = 2)
-  })
+qplot(interval, avg.steps, data = steps.interval, geom = "line", 
+      facets = weekday ~ ., xlim = c(0, 2500), main = "Time Series", 
+      xlab = "Interval", ylab = "Average number of steps")
 ```

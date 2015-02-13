@@ -5,11 +5,10 @@
 
 ```r
 # Loads the required libraries 
-require(dplyr)
+library(dplyr)
 ```
 
 ```
-## Loading required package: dplyr
 ## 
 ## Attaching package: 'dplyr'
 ## 
@@ -23,14 +22,8 @@ require(dplyr)
 ```
 
 ```r
-require(lattice)
-```
+library(ggplot2)
 
-```
-## Loading required package: lattice
-```
-
-```r
 # Unzips the data files
 unzip("activity.zip")
 
@@ -76,8 +69,9 @@ daily.steps <- group_by(activity, date) %>%
   summarise(total.steps = sum(steps,na.rm = TRUE))
 
 # Plots the histogram
-histogram(~ total.steps, data = daily.steps, 
-          xlab = "Total number of steps taken per day ")
+qplot(total.steps, data = daily.steps, geom = "histogram",   
+      xlab = "Total number of steps", xlim = c(0, 25000), binwidth = 500, 
+      main = "Histogram of the total number of steps taken each day")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
@@ -102,8 +96,9 @@ steps.interval <- group_by(activity, interval) %>%
   summarize(avg.steps = mean(steps, na.rm = TRUE))
 
 # Plots the graphic
-xyplot(avg.steps ~ interval, data = steps.interval, type = "l", col = "blue", 
-       main = "Time Series", xlab = "Interval", ylab = "Average number of steps")
+qplot(interval, avg.steps, data = steps.interval, geom = "line", 
+      xlim = c(0, 2500), main = "Time Series", xlab = "Interval", 
+      ylab = "Average number of steps")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
@@ -173,8 +168,9 @@ daily.steps.new  <- group_by(activity.new, date) %>%
   summarise(total.steps = sum(steps, na.rm = TRUE))
 
 # Plots the new histogram
-histogram(~ total.steps, data = daily.steps.new,  
-          xlab = "Total number of steps taken per day")
+qplot(total.steps, data = daily.steps.new, geom = "histogram",   
+      xlab = "Total number of steps", xlim = c(0, 25000), binwidth = 500,
+      main = "Histogram of the total number of steps taken each day")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 
@@ -225,12 +221,9 @@ steps.interval <- group_by(activity, interval, weekday) %>%
   summarize(avg.steps = mean(steps, na.rm = TRUE))
 
 # Plots the graphics
-xyplot(avg.steps ~ interval | weekday, data = steps.interval, type = "l", 
-       layout = c(1, 2), ylab = "Average number of steps", 
-       panel = function(x, y, ...) {
-         panel.xyplot(x, y, ...)
-         panel.abline(h = median(y), lty = 2)
-  })
+qplot(interval, avg.steps, data = steps.interval, geom = "line", 
+      facets = weekday ~ ., xlim = c(0, 2500), main = "Time Series", 
+      xlab = "Interval", ylab = "Average number of steps")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
